@@ -6,7 +6,7 @@ public class CharController : MonoBehaviour {
 
     private Rigidbody rb;
     public float movementSpeed = 20;
-    private Weapon[] weapons = new Weapon[2];
+    public Weapon[] weapons = new Weapon[2];
     public int currentWeapon = 0;
     private float health = 100.0f;
     private bool stunned = false;
@@ -81,9 +81,9 @@ public class CharController : MonoBehaviour {
     private IEnumerator knockback(Vector3 force)
     {
         stunned = true;
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 10; i++)
         {
-            rb.MovePosition(transform.position + force.normalized * movementSpeed * 1.5f * Time.deltaTime);
+            rb.MovePosition(transform.position + force.normalized * movementSpeed * 2.0f * Time.deltaTime);
             yield return new WaitForFixedUpdate();
         }
         stunned = false;
