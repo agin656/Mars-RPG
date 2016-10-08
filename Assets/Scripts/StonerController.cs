@@ -15,7 +15,7 @@ public class StonerController : MonoBehaviour {
         stoner = gameObject.GetComponent<CharController>();
         stoner.movementSpeed = 8;
         Weapon rock = new Weapon();
-        rock.weaponName = "rock";
+        rock.weaponName = "Rock";
         rock.damage = 10;
         rock.cooldown = 2.0f;
         rock.melee = true;
@@ -51,11 +51,14 @@ public class StonerController : MonoBehaviour {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Vector3 result = player.transform.position - stoner.transform.position;
         result.y = 0;
-        if (result.magnitude < visionRange)
+        if (result.magnitude < visionRange && result.magnitude > 0.9 * stoner.weapons[stoner.currentWeapon].range)
         {
             return result;
-        } else
+        }
+        else if (result.magnitude < 0.7 * stoner.weapons[stoner.currentWeapon].range)
         {
+            return -result;
+        } else {
             return Vector3.zero;
         }
     }

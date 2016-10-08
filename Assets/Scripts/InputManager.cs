@@ -47,7 +47,9 @@ public class InputManager : MonoBehaviour {
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit))
         {
-            return hit.point;
+            Vector3 vector = hit.point - player.transform.position;
+            vector.y = 0;
+            return vector;
         }
         return Vector3.zero;
     }

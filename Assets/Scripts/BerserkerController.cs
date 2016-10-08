@@ -15,7 +15,7 @@ public class BerserkerController : MonoBehaviour {
         berserker = gameObject.GetComponent<CharController>();
         berserker.movementSpeed = 10;
         Weapon axe = new Weapon();
-        axe.weaponName = "axe";
+        axe.weaponName = "Axe";
         axe.damage = 20;
         axe.cooldown = 1.5f;
         axe.melee = true;
