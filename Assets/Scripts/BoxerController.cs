@@ -17,7 +17,7 @@ public class BoxerController : MonoBehaviour
         boxer = gameObject.GetComponent<CharController>();
         boxer.movementSpeed = 18;
         Weapon fist = new Weapon();
-        fist.weaponName = "Fist";
+        fist.weaponName = "Fists";
         fist.damage = 10;
         fist.cooldown = 0.5f;
         fist.melee = true;
