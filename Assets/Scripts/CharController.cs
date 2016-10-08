@@ -26,12 +26,15 @@ public class CharController : MonoBehaviour {
     }
 
     public void Move(Vector3 vector) {
-        if(!stunned)
-        rb.MovePosition(transform.position + vector.normalized * movementSpeed * Time.deltaTime);
+        if (!stunned && vector != Vector3.zero)
+        {
+            Debug.Log("test");
+            rb.MovePosition(transform.position + vector.normalized * movementSpeed * Time.deltaTime);
+        }
     }
-    public void Look(Vector3 loc){
-        if (loc == Vector3.zero) return;
-        gameObject.transform.LookAt(new Vector3(loc.x,transform.position.y,loc.z));
+    public void Look(Vector3 dirVector){
+        if (dirVector != Vector3.zero)
+        gameObject.transform.rotation = Quaternion.LookRotation(dirVector);
     }
     public void SwitchWeapon()
     {
