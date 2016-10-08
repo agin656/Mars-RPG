@@ -47,9 +47,6 @@ public class NinjaController : MonoBehaviour
         else if (ninja.weapons[ninja.currentWeapon].isReady())
         {
             checkAttack();
-            currentTime = Time.time;
-            attackWait = Random.Range(0.3f, 0.5f);
-            attacking = true;
         }
     }
 
@@ -99,6 +96,8 @@ public class NinjaController : MonoBehaviour
             {
                 attackVector = ninja.transform.forward;
                 attacking = true;
+                currentTime = Time.time;
+                attackWait = Random.Range(0.3f, 0.5f);
             }
         }
     }

@@ -44,9 +44,6 @@ public class StonerController : MonoBehaviour {
         else if (stoner.weapons[stoner.currentWeapon].isReady())
         {
             checkAttack();
-            currentTime = Time.time;
-            attackWait = Random.Range(0.2f, 0.35f);
-            attacking = true;
         }
     }
 
@@ -92,6 +89,8 @@ public class StonerController : MonoBehaviour {
             {
                 attackVector = stoner.transform.forward;
                 attacking = true;
+                currentTime = Time.time;
+                attackWait = Random.Range(0.2f, 0.35f);
             }
         }
     }

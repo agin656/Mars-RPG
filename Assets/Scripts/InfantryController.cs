@@ -47,9 +47,6 @@ public class InfantryController : MonoBehaviour
         else if (infantry.weapons[infantry.currentWeapon].isReady())
         {
             checkAttack();
-            currentTime = Time.time;
-            attackWait = Random.Range(0.3f, 0.5f);
-            attacking = true;
         }
     }
 
@@ -99,6 +96,8 @@ public class InfantryController : MonoBehaviour
             {
                 attackVector = infantry.transform.forward;
                 attacking = true;
+                currentTime = Time.time;
+                attackWait = Random.Range(0.3f, 0.5f);
             }
         }
     }
