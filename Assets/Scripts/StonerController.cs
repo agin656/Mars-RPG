@@ -9,6 +9,7 @@ public class StonerController : MonoBehaviour {
     private float currentTime;
     private bool attacking = false;
     private Vector3 defaultRotation;
+    private Vector3 attackVector;
 
     // Use this for initialization
     void Start () {
@@ -26,7 +27,9 @@ public class StonerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 lookVector = lookAtPlayer();
+        Vector3 lookVector;
+        if (!attacking) lookVector = lookAtPlayer();
+        else lookVector = attackVector;
         Vector3 movementVector = moveToPlayer();
         stoner.Look(lookVector);
         stoner.Move(movementVector);
@@ -38,8 +41,9 @@ public class StonerController : MonoBehaviour {
                 attacking = false;
             }
         }
-        else if (checkAttack() && stoner.weapons[stoner.currentWeapon].isReady())
+        else if (stoner.weapons[stoner.currentWeapon].isReady())
         {
+            checkAttack();
             currentTime = Time.time;
             attackWait = Random.Range(0.2f, 0.35f);
             attacking = true;
@@ -79,19 +83,16 @@ public class StonerController : MonoBehaviour {
         }
     }
 
-    private bool checkAttack()
+    private void checkAttack()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
         RaycastHit hit;
         Vector3 loc = stoner.transform.position;
-        Collider[] enemies = Physics.OverlapSphere(stoner.transform.position, stoner.weapons[stoner.currentWeapon].range);
-        foreach (Collider enemy in enemies)
-        {
-            if (enemy.gameObject.CompareTag("Player"))
+        if (Physics.SphereCast(stoner.transform.position, 0.5f, stoner.transform.forward, out hit, stoner.weapons[stoner.currentWeapon].range)) {
+            if (hit.collider.gameObject.CompareTag("Player"))
             {
-                return true;
+                attackVector = stoner.transform.forward;
+                attacking = true;
             }
         }
-        return false;
     }
 }

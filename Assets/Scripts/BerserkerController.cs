@@ -80,7 +80,6 @@ public class BerserkerController : MonoBehaviour {
     private bool checkAttack()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        RaycastHit hit;
         Vector3 loc = berserker.transform.position;
         Collider[] enemies = Physics.OverlapSphere(berserker.transform.position, berserker.weapons[berserker.currentWeapon].range);
         foreach (Collider enemy in enemies)
