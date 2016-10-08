@@ -15,12 +15,13 @@ public class BerserkerController : MonoBehaviour {
         berserker = gameObject.GetComponent<CharController>();
         berserker.movementSpeed = 10;
         Weapon axe = new Weapon();
-        axe.weaponName = "axe";
+        axe.weaponName = "Axe";
         axe.damage = 20;
         axe.cooldown = 1.5f;
         axe.melee = true;
         axe.range = 6f;
         berserker.AddWeapon(axe);
+        gameObject.GetComponent<Animator>().Play("idleAxe");
         defaultRotation = berserker.transform.forward;
     }
 
@@ -30,7 +31,6 @@ public class BerserkerController : MonoBehaviour {
         Vector3 movementVector = moveToPlayer();
         berserker.Look(lookVector);
         berserker.Move(movementVector);
-        Debug.Log(movementVector);
         if (attacking)
         {
             if(Time.time > currentTime + attackWait)
@@ -45,6 +45,8 @@ public class BerserkerController : MonoBehaviour {
             attackWait = Random.Range(0.2f, 0.35f);
             attacking = true;
         }
+
+        if(attacking) gameObject.GetComponent<Animator>().Play("readyAxe");
     }
 
     private Vector3 moveToPlayer()

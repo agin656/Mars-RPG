@@ -5,20 +5,22 @@ using System.Collections.Generic;
 public class CharController : MonoBehaviour {
 
     private Rigidbody rb;
+    private Animator animator;
     public float movementSpeed = 20;
     public Weapon[] weapons = new Weapon[2];
     public int currentWeapon = 0;
     private float health = 100.0f;
     private bool stunned = false;
+    private bool moving = false;
 
     void Awake()
     {
+        animator = GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
         weapons[0] = new Weapon();
         weapons[0].owner = this;
         weapons[1] = new Weapon();
         weapons[1].owner = this;
-        weapons[1].Deactivate();
     }
     void Update()
     {
@@ -28,8 +30,8 @@ public class CharController : MonoBehaviour {
     public void Move(Vector3 vector) {
         if (!stunned && vector != Vector3.zero)
         {
-            Debug.Log("test");
             rb.MovePosition(transform.position + vector.normalized * movementSpeed * Time.deltaTime);
+            animator.Play("Walk");
         }
     }
     public void Look(Vector3 dirVector){
@@ -38,9 +40,9 @@ public class CharController : MonoBehaviour {
     }
     public void SwitchWeapon()
     {
-        weapons[currentWeapon].Deactivate();
         currentWeapon = (currentWeapon + 1) % 2;
-        weapons[currentWeapon].Activate();
+        animator.Play("idle"+ weapons[currentWeapon].weaponName);
+        Debug.Log("Switched to: " + weapons[currentWeapon].weaponName);
     }
     public void Attack()
     {
@@ -54,13 +56,15 @@ public class CharController : MonoBehaviour {
     public void AddWeapon(Weapon weapon)
     {
         int ind = 0;
-        if (weapons[0].weaponName != "fists") ind = 1;
-        if (weapons[1].weaponName != "fists") return;
+        if (weapons[0].weaponName != "Fists") ind = 1;
+        if (weapons[1].weaponName != "Fists") return;
+
+        Debug.Log("added "+weapon.weaponName);
 
         weapons[ind] = weapon;
         weapons[ind].owner = this;
 
-        if (ind != currentWeapon) weapons[ind].Deactivate();
+        animator.Play("idle" + weapons[currentWeapon].weaponName);
 
     }
 

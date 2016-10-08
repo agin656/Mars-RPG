@@ -4,9 +4,8 @@ using System.Collections;
 public class Weapon {
 
     public CharController owner;
-    public GameObject model;
 
-    public string weaponName = "fists";
+    public string weaponName = "Fists";
     public float damage = 10;
     public bool melee = true;
     public float range = 4f;
@@ -18,11 +17,6 @@ public class Weapon {
 
     public void Attack()
     {
-        if(!melee)
-        {
-            Shoot();
-            return;
-        }
         if (!active) return;
         if (!ready)
         {
@@ -34,6 +28,14 @@ public class Weapon {
             {
                 return;
             }
+        }
+
+        owner.gameObject.GetComponent<Animator>().Play("attack"+weaponName);
+
+        if (!melee)
+        {
+            Shoot();
+            return;
         }
         Collider[] enemies = Physics.OverlapSphere(owner.gameObject.transform.position, range);
 
@@ -97,17 +99,6 @@ public class Weapon {
         }
     }
 
-    public void Deactivate()
-    {
-        if (model != null) model.SetActive(false);
-        active = false;
-    }
-
-    public void Activate()
-    {
-        if (model != null) model.SetActive(true);
-        active = true;
-    }
 
     public bool isReady()
     {
