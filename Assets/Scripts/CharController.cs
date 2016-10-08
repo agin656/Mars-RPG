@@ -5,14 +5,20 @@ using System.Collections.Generic;
 public class CharController : MonoBehaviour {
 
     private Rigidbody rb;
-    private float movementSpeed = 20;
-    private GameObject[] weapons = new GameObject[2];
-    private int currentWeapon = 0;
+    public float movementSpeed = 20;
+    private Weapon[] weapons = new Weapon[2];
+    public int currentWeapon = 0;
+    private float health = 100.0f;
     
 
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        weapons[0] = new Weapon();
+        weapons[0].owner = this;
+        weapons[1] = new Weapon();
+        weapons[1].owner = this;
+        weapons[1].Deactivate();
     }
 
     public void Move(float deg) {
@@ -25,13 +31,40 @@ public class CharController : MonoBehaviour {
     }
     public void SwitchWeapon()
     {
+        weapons[currentWeapon].Deactivate();
         currentWeapon = (currentWeapon + 1) % 2;
+        weapons[currentWeapon].Activate();
     }
     public void Attack()
     {
         weapons[currentWeapon].SendMessage("Attack", SendMessageOptions.DontRequireReceiver);
     }
 
+    public void AddWeapon(Weapon weapon)
+    {
+        int ind = 0;
+        if (weapons[0].weaponName != "fists") ind = 1;
+        if (weapons[0].weaponName != "fists") return;
+
+        weapons[ind] = weapon;
+        weapons[ind].owner = this;
+
+        if (ind != currentWeapon) weapons[ind].Deactivate();
+
+    }
+
+    public float getHealth()
+    {
+        return health;
+    }
+    public void ApplyDamage(float amount)
+    {
+        health -= amount;
+    }
+    public void Heal(float amount)
+    {
+        health += amount;
+    }
 
     private Vector3 DegreeToVector(float deg)
     {
