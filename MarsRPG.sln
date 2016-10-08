@@ -1,12 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarsRPG.CSharp", "MarsRPG.CSharp.csproj", "{C2BC6808-D4F4-9A74-BFA1-1F3FC913EEDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2BC6808-D4F4-9A74-BFA1-1F3FC913EEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2BC6808-D4F4-9A74-BFA1-1F3FC913EEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2BC6808-D4F4-9A74-BFA1-1F3FC913EEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2BC6808-D4F4-9A74-BFA1-1F3FC913EEDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
