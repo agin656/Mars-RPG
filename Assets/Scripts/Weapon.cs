@@ -23,7 +23,11 @@ public class Weapon : MonoBehaviour {
 
         foreach(Collider enemy in enemies)
         {
-            enemy.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
+            if (enemy.gameObject.transform.root != owner.transform.root)
+            {
+                enemy.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
+                enemy.gameObject.SendMessage("ApplyKnockback", owner.gameObject.transform.position, SendMessageOptions.DontRequireReceiver);
+            }
         }
     }
 
