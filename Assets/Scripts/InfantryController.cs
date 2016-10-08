@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class StonerController : MonoBehaviour {
+public class InfantryController : MonoBehaviour
+{
 
-    public CharController stoner;
+    public CharController infantry;
     public float visionRange = 50f;
     private float attackWait;
     private float currentTime;
@@ -12,40 +13,42 @@ public class StonerController : MonoBehaviour {
     private Vector3 attackVector;
 
     // Use this for initialization
-    void Start () {
-        stoner = gameObject.GetComponent<CharController>();
-        stoner.movementSpeed = 8;
-        Weapon rock = new Weapon();
-        rock.weaponName = "Rock";
-        rock.damage = 10;
-        rock.cooldown = 2.0f;
-        rock.melee = false;
-        rock.range = 20f;
-        stoner.AddWeapon(rock);
-        defaultRotation = stoner.transform.forward;
+    void Start()
+    {
+        infantry = gameObject.GetComponent<CharController>();
+        infantry.movementSpeed = 8;
+        Weapon gun = new Weapon();
+        gun.weaponName = "Gun";
+        gun.damage = 20;
+        gun.cooldown = 1.0f;
+        gun.melee = false;
+        gun.range = 30f;
+        infantry.AddWeapon(gun);
+        defaultRotation = infantry.transform.forward;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         Vector3 lookVector;
         if (!attacking) lookVector = lookAtPlayer();
         else lookVector = attackVector;
         Vector3 movementVector = moveToPlayer();
-        stoner.Look(lookVector);
-        stoner.Move(movementVector);
+        infantry.Look(lookVector);
+        infantry.Move(movementVector);
         if (attacking)
         {
             if (Time.time > currentTime + attackWait)
             {
-                stoner.Attack();
+                infantry.Attack();
                 attacking = false;
             }
         }
-        else if (stoner.weapons[stoner.currentWeapon].isReady())
+        else if (infantry.weapons[infantry.currentWeapon].isReady())
         {
             checkAttack();
             currentTime = Time.time;
-            attackWait = Random.Range(0.2f, 0.35f);
+            attackWait = Random.Range(0.3f, 0.5f);
             attacking = true;
         }
     }
@@ -53,16 +56,18 @@ public class StonerController : MonoBehaviour {
     private Vector3 moveToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 result = player.transform.position - stoner.transform.position;
+        Vector3 result = player.transform.position - infantry.transform.position;
         result.y = 0;
-        if (result.magnitude < visionRange && result.magnitude > 0.8 * stoner.weapons[stoner.currentWeapon].range)
+        if (result.magnitude < visionRange && result.magnitude > 0.9 * infantry.weapons[infantry.currentWeapon].range)
         {
             return result;
         }
-        else if (result.magnitude < 0.5 * stoner.weapons[stoner.currentWeapon].range)
+        else if (result.magnitude < 0.6 * infantry.weapons[infantry.currentWeapon].range)
         {
             return -result;
-        } else {
+        }
+        else
+        {
             return Vector3.zero;
         }
     }
@@ -71,13 +76,14 @@ public class StonerController : MonoBehaviour {
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Vector3 playerPos = player.transform.position;
-        Vector3 stonerPos = gameObject.transform.position;
-        Vector3 result = playerPos - stonerPos;
+        Vector3 infantryPos = gameObject.transform.position;
+        Vector3 result = playerPos - infantryPos;
         result.y = 0;
         if (result.magnitude < visionRange)
         {
             return result;
-        } else
+        }
+        else
         {
             return defaultRotation;
         }
@@ -86,13 +92,15 @@ public class StonerController : MonoBehaviour {
     private void checkAttack()
     {
         RaycastHit hit;
-        Vector3 loc = stoner.transform.position;
-        if (Physics.SphereCast(stoner.transform.position, 0.5f, stoner.transform.forward, out hit, stoner.weapons[stoner.currentWeapon].range)) {
+        Vector3 loc = infantry.transform.position;
+        if (Physics.SphereCast(infantry.transform.position, 0.5f, infantry.transform.forward, out hit, infantry.weapons[infantry.currentWeapon].range))
+        {
             if (hit.collider.gameObject.CompareTag("Player"))
             {
-                attackVector = stoner.transform.forward;
+                attackVector = infantry.transform.forward;
                 attacking = true;
             }
         }
     }
 }
+

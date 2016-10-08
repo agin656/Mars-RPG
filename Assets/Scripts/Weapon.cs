@@ -53,7 +53,7 @@ public class Weapon {
                 if (angle < 90)
                 {
                     enemy.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
-                    enemy.gameObject.SendMessage("ApplyKnockback", owner.gameObject.transform.position, SendMessageOptions.DontRequireReceiver);
+                    enemy.gameObject.SendMessage("ApplyKnockback", owner.weapons[owner.currentWeapon], SendMessageOptions.DontRequireReceiver);
                 }
             }
         }
@@ -61,6 +61,7 @@ public class Weapon {
 
     public void Shoot()
     {
+        Debug.Log("bang");
         if (!active) return;
         if (!ready)
         {
@@ -90,7 +91,7 @@ public class Weapon {
                 {
                     return;
                 }
-                hit.rigidbody.gameObject.SendMessage("ApplyKnockback", owner.gameObject.transform.position, SendMessageOptions.DontRequireReceiver);
+                hit.rigidbody.gameObject.SendMessage("ApplyKnockback", owner.weapons[owner.currentWeapon], SendMessageOptions.DontRequireReceiver);
             }
             if (hit.transform.root != owner.transform.root)
             {

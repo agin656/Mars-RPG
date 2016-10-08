@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BerserkerController : MonoBehaviour {
+public class AssassinController : MonoBehaviour
+{
 
-    public CharController berserker;
+    public CharController assassin;
     public float visionRange = 50;
     private float attackWait;
     private float currentTime;
@@ -11,53 +12,53 @@ public class BerserkerController : MonoBehaviour {
     private Vector3 defaultRotation;
 
     // Use this for initialization
-    void Start () {
-        berserker = gameObject.GetComponent<CharController>();
-        berserker.movementSpeed = 10;
-        Weapon axe = new Weapon();
-        axe.weaponName = "Axe";
-        axe.damage = 20;
-        axe.cooldown = 1.5f;
-        axe.melee = true;
-        axe.range = 6f;
-        berserker.AddWeapon(axe);
-        gameObject.GetComponent<Animator>().Play("idleAxe");
-        defaultRotation = berserker.transform.forward;
+    void Start()
+    {
+        assassin = gameObject.GetComponent<CharController>();
+        assassin.movementSpeed = 22;
+        Weapon sword = new Weapon();
+        sword.weaponName = "Sword";
+        sword.damage = 20;
+        sword.cooldown = 1.0f;
+        sword.melee = true;
+        sword.range = 4f;
+        assassin.AddWeapon(sword);
+        defaultRotation = assassin.transform.forward;
     }
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
         Vector3 lookVector = lookAtPlayer();
         Vector3 movementVector = moveToPlayer();
-        berserker.Look(lookVector);
-        berserker.Move(movementVector);
+        assassin.Look(lookVector);
+        assassin.Move(movementVector);
         if (attacking)
         {
-            if(Time.time > currentTime + attackWait)
+            if (Time.time > currentTime + attackWait)
             {
-                berserker.Attack();
+                assassin.Attack();
                 attacking = false;
             }
         }
-        else if (checkAttack() && berserker.weapons[berserker.currentWeapon].isReady())
+        else if (checkAttack() && assassin.weapons[assassin.currentWeapon].isReady())
         {
             currentTime = Time.time;
             attackWait = Random.Range(0.2f, 0.35f);
             attacking = true;
         }
-
-        if(attacking) gameObject.GetComponent<Animator>().Play("readyAxe");
     }
 
     private Vector3 moveToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 result = player.transform.position - berserker.transform.position;
+        Vector3 result = player.transform.position - assassin.transform.position;
         result.y = 0;
         if (result.magnitude < visionRange)
         {
             return result;
-        } else
+        }
+        else
         {
             return Vector3.zero;
         }
@@ -67,24 +68,25 @@ public class BerserkerController : MonoBehaviour {
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Vector3 playerPos = player.transform.position;
-        Vector3 berserkerPos = gameObject.transform.position;
-        Vector3 result = playerPos - berserkerPos;
+        Vector3 assassinPos = gameObject.transform.position;
+        Vector3 result = playerPos - assassinPos;
         result.y = 0;
-        if(result.magnitude < 50)
+        if (result.magnitude < 50)
         {
             return result;
-        } else
+        }
+        else
         {
             return (defaultRotation);
         }
-        
+
     }
 
     private bool checkAttack()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 loc = berserker.transform.position;
-        Collider[] enemies = Physics.OverlapSphere(berserker.transform.position, berserker.weapons[berserker.currentWeapon].range);
+        Vector3 loc = assassin.transform.position;
+        Collider[] enemies = Physics.OverlapSphere(assassin.transform.position, assassin.weapons[assassin.currentWeapon].range);
         foreach (Collider enemy in enemies)
         {
             if (enemy.gameObject.CompareTag("Player"))
