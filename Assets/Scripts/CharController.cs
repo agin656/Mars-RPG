@@ -28,7 +28,6 @@ public class CharController : MonoBehaviour {
     public void Move(Vector3 vector) {
         if (!stunned && vector != Vector3.zero)
         {
-            Debug.Log("test");
             rb.MovePosition(transform.position + vector.normalized * movementSpeed * Time.deltaTime);
         }
     }
@@ -76,17 +75,25 @@ public class CharController : MonoBehaviour {
     {
         health += amount;
     }
-    public void ApplyKnockback(Vector3 source)
+    public void ApplyKnockback(Weapon weapon)
     {
-        Vector3 force = gameObject.transform.position - source;
-        StartCoroutine("knockback", force.normalized);
+        StartCoroutine(knockback(weapon));
     }
-    private IEnumerator knockback(Vector3 force)
+    private IEnumerator knockback(Weapon weapon)
     {
         stunned = true;
+        Vector3 ownerPos = weapon.owner.gameObject.transform.position;
+        Vector3 targetPos = gameObject.transform.position;
+        Vector3 force = targetPos - ownerPos;
         for (int i = 0; i < 10; i++)
         {
-            rb.MovePosition(transform.position + force.normalized * movementSpeed * 2.0f * Time.deltaTime);
+            if (weapon.melee)
+            {
+                rb.MovePosition(transform.position + force.normalized * Mathf.Sqrt(movementSpeed) * Mathf.Sqrt(weapon.damage) * 2f * Time.deltaTime);
+            } else
+            {
+                rb.MovePosition(transform.position + force.normalized * Mathf.Sqrt(movementSpeed) * Mathf.Sqrt(weapon.damage) * Time.deltaTime);
+            }
             yield return new WaitForFixedUpdate();
         }
         stunned = false;

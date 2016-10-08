@@ -18,7 +18,7 @@ public class StonerController : MonoBehaviour {
         rock.weaponName = "Rock";
         rock.damage = 10;
         rock.cooldown = 2.0f;
-        rock.melee = true;
+        rock.melee = false;
         rock.range = 20f;
         stoner.AddWeapon(rock);
         defaultRotation = stoner.transform.forward;
@@ -51,11 +51,11 @@ public class StonerController : MonoBehaviour {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Vector3 result = player.transform.position - stoner.transform.position;
         result.y = 0;
-        if (result.magnitude < visionRange && result.magnitude > 0.9 * stoner.weapons[stoner.currentWeapon].range)
+        if (result.magnitude < visionRange && result.magnitude > 0.8 * stoner.weapons[stoner.currentWeapon].range)
         {
             return result;
         }
-        else if (result.magnitude < 0.7 * stoner.weapons[stoner.currentWeapon].range)
+        else if (result.magnitude < 0.5 * stoner.weapons[stoner.currentWeapon].range)
         {
             return -result;
         } else {

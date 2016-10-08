@@ -30,7 +30,6 @@ public class BerserkerController : MonoBehaviour {
         Vector3 movementVector = moveToPlayer();
         berserker.Look(lookVector);
         berserker.Move(movementVector);
-        Debug.Log(movementVector);
         if (attacking)
         {
             if(Time.time > currentTime + attackWait)
