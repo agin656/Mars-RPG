@@ -21,9 +21,8 @@ public class CharController : MonoBehaviour {
         weapons[1].Deactivate();
     }
 
-    public void Move(float deg) {
-        if (float.IsNaN(deg)) return;
-        rb.MovePosition(transform.position + DegreeToVector(deg) * movementSpeed * Time.deltaTime);
+    public void Move(Vector3 vector) {
+        rb.MovePosition(transform.position + vector.normalized * movementSpeed * Time.deltaTime);
     }
     public void Look(Vector3 loc){
         if (loc == Vector3.zero) return;
