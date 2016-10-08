@@ -6,12 +6,12 @@ public class CharController : MonoBehaviour {
 
     private Rigidbody rb;
     public float movementSpeed = 20;
-    private Weapon[] weapons = new Weapon[2];
+    public Weapon[] weapons = new Weapon[2];
     public int currentWeapon = 0;
     private float health = 100.0f;
     private bool stunned = false;
 
-    void Start()
+    void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         weapons[0] = new Weapon();
@@ -26,12 +26,15 @@ public class CharController : MonoBehaviour {
     }
 
     public void Move(Vector3 vector) {
-        if(!stunned)
-        rb.MovePosition(transform.position + vector.normalized * movementSpeed * Time.deltaTime);
+        if (!stunned && vector != Vector3.zero)
+        {
+            Debug.Log("test");
+            rb.MovePosition(transform.position + vector.normalized * movementSpeed * Time.deltaTime);
+        }
     }
-    public void Look(Vector3 loc){
-        if (loc == Vector3.zero) return;
-        gameObject.transform.LookAt(new Vector3(loc.x,transform.position.y,loc.z));
+    public void Look(Vector3 dirVector){
+        if (dirVector != Vector3.zero)
+        gameObject.transform.rotation = Quaternion.LookRotation(dirVector);
     }
     public void SwitchWeapon()
     {
@@ -52,7 +55,7 @@ public class CharController : MonoBehaviour {
     {
         int ind = 0;
         if (weapons[0].weaponName != "fists") ind = 1;
-        if (weapons[0].weaponName != "fists") return;
+        if (weapons[1].weaponName != "fists") return;
 
         weapons[ind] = weapon;
         weapons[ind].owner = this;
@@ -81,9 +84,9 @@ public class CharController : MonoBehaviour {
     private IEnumerator knockback(Vector3 force)
     {
         stunned = true;
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 10; i++)
         {
-            rb.MovePosition(transform.position + force.normalized * movementSpeed * 1.5f * Time.deltaTime);
+            rb.MovePosition(transform.position + force.normalized * movementSpeed * 2.0f * Time.deltaTime);
             yield return new WaitForFixedUpdate();
         }
         stunned = false;

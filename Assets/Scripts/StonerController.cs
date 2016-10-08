@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BerserkerController : MonoBehaviour {
+public class StonerController : MonoBehaviour {
 
-    public CharController berserker;
-    public float visionRange = 50;
+    public CharController stoner;
+    public float visionRange = 50f;
     private float attackWait;
     private float currentTime;
     private bool attacking = false;
@@ -12,34 +12,33 @@ public class BerserkerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        berserker = gameObject.GetComponent<CharController>();
-        berserker.movementSpeed = 10;
-        Weapon axe = new Weapon();
-        axe.weaponName = "axe";
-        axe.damage = 20;
-        axe.cooldown = 1.5f;
-        axe.melee = true;
-        axe.range = 6f;
-        berserker.AddWeapon(axe);
-        defaultRotation = berserker.transform.forward;
+        stoner = gameObject.GetComponent<CharController>();
+        stoner.movementSpeed = 8;
+        Weapon rock = new Weapon();
+        rock.weaponName = "rock";
+        rock.damage = 10;
+        rock.cooldown = 2.0f;
+        rock.melee = true;
+        rock.range = 20f;
+        stoner.AddWeapon(rock);
+        defaultRotation = stoner.transform.forward;
     }
-
+	
 	// Update is called once per frame
 	void Update () {
         Vector3 lookVector = lookAtPlayer();
         Vector3 movementVector = moveToPlayer();
-        berserker.Look(lookVector);
-        berserker.Move(movementVector);
-        Debug.Log(movementVector);
+        stoner.Look(lookVector);
+        stoner.Move(movementVector);
         if (attacking)
         {
-            if(Time.time > currentTime + attackWait)
+            if (Time.time > currentTime + attackWait)
             {
-                berserker.Attack();
+                stoner.Attack();
                 attacking = false;
             }
         }
-        else if (checkAttack() && berserker.weapons[berserker.currentWeapon].isReady())
+        else if (checkAttack() && stoner.weapons[stoner.currentWeapon].isReady())
         {
             currentTime = Time.time;
             attackWait = Random.Range(0.2f, 0.35f);
@@ -50,7 +49,7 @@ public class BerserkerController : MonoBehaviour {
     private Vector3 moveToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 result = player.transform.position - berserker.transform.position;
+        Vector3 result = player.transform.position - stoner.transform.position;
         result.y = 0;
         if (result.magnitude < visionRange)
         {
@@ -65,25 +64,24 @@ public class BerserkerController : MonoBehaviour {
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Vector3 playerPos = player.transform.position;
-        Vector3 berserkerPos = gameObject.transform.position;
-        Vector3 result = playerPos - berserkerPos;
+        Vector3 stonerPos = gameObject.transform.position;
+        Vector3 result = playerPos - stonerPos;
         result.y = 0;
-        if(result.magnitude < 50)
+        if (result.magnitude < visionRange)
         {
             return result;
         } else
         {
-            return (defaultRotation);
+            return defaultRotation;
         }
-        
     }
 
     private bool checkAttack()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         RaycastHit hit;
-        Vector3 loc = berserker.transform.position;
-        Collider[] enemies = Physics.OverlapSphere(berserker.transform.position, berserker.weapons[berserker.currentWeapon].range);
+        Vector3 loc = stoner.transform.position;
+        Collider[] enemies = Physics.OverlapSphere(stoner.transform.position, stoner.weapons[stoner.currentWeapon].range);
         foreach (Collider enemy in enemies)
         {
             if (enemy.gameObject.CompareTag("Player"))

@@ -8,11 +8,11 @@ public class Weapon {
 
     public string weaponName = "fists";
     public float damage = 10;
-    public bool melee = false;
-    public float range = 25;
-    public float cooldown = 0.1f;
+    public bool melee = true;
+    public float range = 4f;
+    public float cooldown = 1.0f;
 
-    private bool ready = true;
+    public bool ready = true;
     private bool active = true;
     private float currentTime = 0f;
 
@@ -37,7 +37,9 @@ public class Weapon {
         }
         Collider[] enemies = Physics.OverlapSphere(owner.gameObject.transform.position, range);
 
-        foreach(Collider enemy in enemies)
+        currentTime = Time.time;
+        ready = false;
+        foreach (Collider enemy in enemies)
         {
             if (enemy.gameObject.transform.root != owner.transform.root)
             {
@@ -50,8 +52,6 @@ public class Weapon {
                 {
                     enemy.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
                     enemy.gameObject.SendMessage("ApplyKnockback", owner.gameObject.transform.position, SendMessageOptions.DontRequireReceiver);
-                    currentTime = Time.time;
-                    ready = false;
                 }
             }
         }
@@ -71,37 +71,11 @@ public class Weapon {
                 return;
             }
         }
-
-        //I'm keeping all of the commented out stuff for now because while it was buggy, it did solve some problems that I was having before with raycasting
         Vector3 fireDirection = owner.gameObject.transform.forward;
-        //RaycastHit[] allHits;
         RaycastHit hit;
         Vector3 loc = owner.gameObject.transform.position;
-        //allHits = Physics.SphereCastAll(loc, 0.5f, fireDirection, range);
-        //allHits = Physics.RaycastAll(loc, fireDirection, range);
-        //allHits = sortHits(allHits);
-        /*foreach (var hit in allHits)
-        {
-            if (hit.transform.position != owner.gameObject.transform.position)
-            {
-                Debug.Log(hit.collider.tag);
-                try
-                {
-                    hit.rigidbody.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
-                }
-                catch
-                {
-                    return;
-                }
-                hit.rigidbody.gameObject.SendMessage("ApplyKnockback", owner.gameObject.transform.position, SendMessageOptions.DontRequireReceiver);
-                currentTime = Time.time;
-                ready = false;
-            }
-            if (hit.transform.root != owner.transform.root)
-            {
-                return;
-            }
-        }*/
+        currentTime = Time.time;
+        ready = false;
         if (Physics.SphereCast(loc, 0.5f, fireDirection, out hit, range))
         {
             if (hit.transform.position != owner.gameObject.transform.position)
@@ -115,8 +89,6 @@ public class Weapon {
                     return;
                 }
                 hit.rigidbody.gameObject.SendMessage("ApplyKnockback", owner.gameObject.transform.position, SendMessageOptions.DontRequireReceiver);
-                currentTime = Time.time;
-                ready = false;
             }
             if (hit.transform.root != owner.transform.root)
             {
@@ -137,26 +109,19 @@ public class Weapon {
         active = true;
     }
 
-    /*private RaycastHit[] sortHits(RaycastHit[] hits)
+    public bool isReady()
     {
-        int minIndex = 0;
-        for (int i = 0; i < hits.Length; i++)
+        if (!ready)
         {
-            float min = range;
-            for (int j = 0; j < hits.Length; j++)
+            if (Time.time - currentTime > cooldown)
             {
-                var hit = hits[j];
-                if (hit.distance < min)
-                {
-                    min = hit.distance;
-                    minIndex = j;
-                }
+                ready = true;
             }
-            var current = hits[i];
-            var minHit = hits[minIndex];
-            hits[i] = minHit;
-            hits[minIndex] = minHit;
+            else
+            {
+                return false;
+            }
         }
-        return hits;
-    }*/
+        return ready;
+    }
 }
