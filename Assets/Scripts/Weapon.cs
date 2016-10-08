@@ -61,7 +61,6 @@ public class Weapon {
 
     public void Shoot()
     {
-        Debug.Log("bang");
         if (!active) return;
         if (!ready)
         {
