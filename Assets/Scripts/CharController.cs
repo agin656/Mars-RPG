@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class CharController : MonoBehaviour {
 
     private Rigidbody rb;
-    private float movementSpeed = 20;
+    public float movementSpeed = 20;
     private GameObject[] weapons = new GameObject[2];
-    private int currentWeapon = 0;
+    public int currentWeapon = 0;
     
 
     void Start()
@@ -15,9 +15,8 @@ public class CharController : MonoBehaviour {
         rb = gameObject.GetComponent<Rigidbody>();
     }
 
-    public void Move(float deg) {
-        if (float.IsNaN(deg)) return;
-        rb.MovePosition(transform.position + DegreeToVector(deg) * movementSpeed * Time.deltaTime);
+    public void Move(Vector3 vector) {
+        rb.MovePosition(transform.position + vector.normalized * movementSpeed * Time.deltaTime);
     }
     public void Look(Vector3 loc){
         if (loc == Vector3.zero) return;

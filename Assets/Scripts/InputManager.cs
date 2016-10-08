@@ -16,8 +16,8 @@ public class InputManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float moveDir = getMoveDir();
-        if (moving)player.Move(moveDir);
+        Vector3 moveVector = getMoveVector();
+        if (moving)player.Move(moveVector);
 
         player.Look(getLookLocation());
 
@@ -26,11 +26,11 @@ public class InputManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Mouse0)) player.Attack();
     }
 
-    private float getMoveDir(){
+    private Vector3 getMoveVector(){
         float x = 0;
         float y = 0;
-        if (Input.GetKey(KeyCode.S)) y += 1;
-        if (Input.GetKey(KeyCode.W)) y -= 1;
+        if (Input.GetKey(KeyCode.S)) y -= 1;
+        if (Input.GetKey(KeyCode.W)) y += 1;
         if (Input.GetKey(KeyCode.D)) x += 1;
         if (Input.GetKey(KeyCode.A)) x -= 1;
 
@@ -38,7 +38,7 @@ public class InputManager : MonoBehaviour {
         if (x != 0 || y != 0) moving = true;
         else moving = false;
 
-        return (Mathf.Atan2(y, x) * Mathf.Rad2Deg) + 90;
+        return new Vector3(x, 0, y);
     }
 
     private Vector3 getLookLocation()
