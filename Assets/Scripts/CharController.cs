@@ -11,7 +11,7 @@ public class CharController : MonoBehaviour {
     private float health = 100.0f;
     private bool stunned = false;
 
-    void Start()
+    void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         weapons[0] = new Weapon();
@@ -52,7 +52,7 @@ public class CharController : MonoBehaviour {
     {
         int ind = 0;
         if (weapons[0].weaponName != "fists") ind = 1;
-        if (weapons[0].weaponName != "fists") return;
+        if (weapons[1].weaponName != "fists") return;
 
         weapons[ind] = weapon;
         weapons[ind].owner = this;

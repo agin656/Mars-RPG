@@ -12,6 +12,13 @@ public class BerserkerController : MonoBehaviour {
     void Start () {
         berserker = gameObject.GetComponent<CharController>();
         berserker.movementSpeed = 10;
+        Weapon axe = new Weapon();
+        axe.weaponName = "axe";
+        axe.damage = 20;
+        axe.cooldown = 1.5f;
+        axe.melee = true;
+        axe.range = 6f;
+        berserker.AddWeapon(axe);
     }
 
 	// Update is called once per frame
