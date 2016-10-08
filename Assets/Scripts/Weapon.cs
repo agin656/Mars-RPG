@@ -43,7 +43,9 @@ public class Weapon {
         ready = false;
         foreach (Collider enemy in enemies)
         {
-            if (enemy.gameObject.transform.root != owner.transform.root)
+            RaycastHit hit;
+            Physics.Raycast(owner.transform.position, owner.transform.forward, out hit, owner.weapons[owner.currentWeapon].range);
+            if (enemy.gameObject.transform.root != owner.transform.root && (hit.collider.gameObject.transform.root.gameObject.GetComponent<CharController>() != null))
             {
                 Vector3 enemyLocation = enemy.gameObject.transform.position;
                 Vector3 ownerLocation = owner.gameObject.transform.position;
