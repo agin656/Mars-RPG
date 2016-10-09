@@ -65,6 +65,35 @@ public class CharController : MonoBehaviour {
     }
     public void Die()
     {
+        bool check = false;
+        GameObject god = GameObject.FindGameObjectWithTag("God");
+        if (gameObject.CompareTag("barbBoss"))
+        {
+            god.GetComponent<God>().barbAlive = false;
+            check = true;
+        }
+        if (gameObject.CompareTag("ninjaBoss"))
+        {
+            god.GetComponent<God>().ninjaAlive = false;
+            check = true;
+        }
+        if (gameObject.CompareTag("allianceBoss"))
+        {
+            god.GetComponent<God>().allianceAlive = false;
+            check = true;
+        }
+        if (check)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            int faction = player.GetComponent<CharController>().faction;
+            bool barbDead = !god.GetComponent<God>().barbAlive;
+            bool ninjaDead = !god.GetComponent<God>().ninjaAlive;
+            bool allianceDead = !god.GetComponent<God>().allianceAlive;
+            if ((faction == 0 && ninjaDead && allianceDead) || (faction == 1 && barbDead && allianceDead) || (faction == 2 && ninjaDead && barbDead))
+            {
+                win();
+            }
+        }
         Destroy(gameObject);
     }
 
@@ -124,5 +153,10 @@ public class CharController : MonoBehaviour {
     {
         float radians = Mathf.Deg2Rad * deg;
         return new Vector3(Mathf.Sin(radians), 0, Mathf.Cos(radians));
+    }
+
+    private void win()
+    {
+        Debug.Log("YOU WIN!");
     }
 }
