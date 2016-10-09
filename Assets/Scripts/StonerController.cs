@@ -14,7 +14,10 @@ public class StonerController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         stoner = gameObject.GetComponent<CharController>();
-        stoner.movementSpeed = 8;
+        stoner.speed = 3;
+        stoner.endurance = 3;
+        stoner.strength = 0;
+        stoner.marksmanship = 0;
         Weapon rock = new Weapon();
         rock.weaponName = "Rock";
         rock.damage = 10;

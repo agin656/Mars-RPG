@@ -16,7 +16,10 @@ public class NinjaController : MonoBehaviour
     void Start()
     {
         ninja = gameObject.GetComponent<CharController>();
-        ninja.movementSpeed = 15;
+        ninja.speed = 10;
+        ninja.endurance = 1;
+        ninja.strength = 0;
+        ninja.marksmanship = 0;
         Weapon shuriken = new Weapon();
         shuriken.weaponName = "Shuriken";
         shuriken.damage = 13;

@@ -16,7 +16,10 @@ public class InfantryController : MonoBehaviour
     void Start()
     {
         infantry = gameObject.GetComponent<CharController>();
-        infantry.movementSpeed = 8;
+        infantry.speed = 3;
+        infantry.endurance = 1;
+        infantry.strength = 0;
+        infantry.marksmanship = 0;
         Weapon gun = new Weapon();
         gun.weaponName = "Gun";
         gun.damage = 20;

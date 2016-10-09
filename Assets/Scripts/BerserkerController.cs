@@ -13,11 +13,14 @@ public class BerserkerController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         berserker = gameObject.GetComponent<CharController>();
-        berserker.movementSpeed = 10;
+        berserker.speed = 5;
+        berserker.endurance = 12;
+        berserker.strength = 0;
+        berserker.marksmanship = 0;
         Weapon axe = new Weapon();
         axe.weaponName = "Axe";
         axe.damage = 20;
-        axe.cooldown = 1.5f;
+        axe.cooldown = 2.0f;
         axe.melee = true;
         axe.range = 6f;
         berserker.AddWeapon(axe);

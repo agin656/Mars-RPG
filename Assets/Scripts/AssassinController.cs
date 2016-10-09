@@ -15,7 +15,10 @@ public class AssassinController : MonoBehaviour
     void Start()
     {
         assassin = gameObject.GetComponent<CharController>();
-        assassin.movementSpeed = 22;
+        assassin.speed = 17;
+        assassin.endurance = 3;
+        assassin.strength = 0;
+        assassin.marksmanship = 0;
         Weapon sword = new Weapon();
         sword.weaponName = "Sword";
         sword.damage = 20;
