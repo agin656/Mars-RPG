@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class berserkerBossBoss : MonoBehaviour
+public class BerserkerBoss : MonoBehaviour
 {
 
     public CharController berserkerBoss;
@@ -34,6 +34,11 @@ public class berserkerBossBoss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject God = GameObject.FindGameObjectWithTag("God");
+        if (berserkerBoss.getHealth() == 0)
+        {
+            God.GetComponent<God>().barbAlive = false;
+        }
         Vector3 lookVector = lookAtPlayer();
         Vector3 movementVector = moveToPlayer();
         berserkerBoss.Look(lookVector);
