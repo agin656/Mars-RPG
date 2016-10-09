@@ -17,6 +17,7 @@ public class CharController : MonoBehaviour {
     public int speed;
     public int strength;
     public int marksmanship;
+    public int faction;
 
     void Awake()
     {

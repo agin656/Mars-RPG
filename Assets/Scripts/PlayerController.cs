@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour {
         Gun.range = 30f;
 
         gameObject.GetComponent<CharController>().AddWeapon(Gun);
+
+        gameObject.GetComponent<CharController>().faction = 0;
     }
 	
 	// Update is called once per frame
