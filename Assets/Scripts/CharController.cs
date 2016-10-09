@@ -6,16 +6,24 @@ public class CharController : MonoBehaviour {
 
     private Rigidbody rb;
     private Animator animator;
-    public float movementSpeed = 20;
+    private float movementSpeed = 20;
     public Weapon[] weapons = new Weapon[2];
     public int currentWeapon = 0;
     public float maxHealth = 100.0f;
     private float health = 100.0f;
     private bool stunned = false;
     private bool moving = false;
+    private float maxHealth;
+    public int endurance;
+    public int speed;
+    public int strength;
+    public int marksmanship;
 
     void Awake()
     {
+        maxHealth = 100 + (endurance * 10);
+        health = 100 + (endurance * 10);
+        movementSpeed = 5 + speed;
         animator = GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
         weapons[0] = new Weapon();

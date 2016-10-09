@@ -16,7 +16,10 @@ public class NinjaController : MonoBehaviour
     void Start()
     {
         ninja = gameObject.GetComponent<CharController>();
-        ninja.movementSpeed = 15;
+        ninja.speed = 10;
+        ninja.endurance = 1;
+        ninja.strength = 0;
+        ninja.marksmanship = 0;
         Weapon shuriken = new Weapon();
         shuriken.weaponName = "Shuriken";
         shuriken.damage = 13;
@@ -47,9 +50,6 @@ public class NinjaController : MonoBehaviour
         else if (ninja.weapons[ninja.currentWeapon].isReady())
         {
             checkAttack();
-            currentTime = Time.time;
-            attackWait = Random.Range(0.3f, 0.5f);
-            attacking = true;
         }
     }
 
@@ -99,6 +99,8 @@ public class NinjaController : MonoBehaviour
             {
                 attackVector = ninja.transform.forward;
                 attacking = true;
+                currentTime = Time.time;
+                attackWait = Random.Range(0.3f, 0.5f);
             }
         }
     }

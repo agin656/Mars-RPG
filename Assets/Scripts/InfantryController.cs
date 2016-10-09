@@ -16,7 +16,10 @@ public class InfantryController : MonoBehaviour
     void Start()
     {
         infantry = gameObject.GetComponent<CharController>();
-        infantry.movementSpeed = 8;
+        infantry.speed = 3;
+        infantry.endurance = 1;
+        infantry.strength = 0;
+        infantry.marksmanship = 0;
         Weapon gun = new Weapon();
         gun.weaponName = "Gun";
         gun.damage = 20;
@@ -47,9 +50,6 @@ public class InfantryController : MonoBehaviour
         else if (infantry.weapons[infantry.currentWeapon].isReady())
         {
             checkAttack();
-            currentTime = Time.time;
-            attackWait = Random.Range(0.3f, 0.5f);
-            attacking = true;
         }
     }
 
@@ -99,6 +99,8 @@ public class InfantryController : MonoBehaviour
             {
                 attackVector = infantry.transform.forward;
                 attacking = true;
+                currentTime = Time.time;
+                attackWait = Random.Range(0.3f, 0.5f);
             }
         }
     }
