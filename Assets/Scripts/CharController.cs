@@ -9,6 +9,7 @@ public class CharController : MonoBehaviour {
     public float movementSpeed = 20;
     public Weapon[] weapons = new Weapon[2];
     public int currentWeapon = 0;
+    public float maxHealth = 100.0f;
     private float health = 100.0f;
     private bool stunned = false;
     private bool moving = false;
@@ -42,7 +43,6 @@ public class CharController : MonoBehaviour {
     {
         currentWeapon = (currentWeapon + 1) % 2;
         animator.Play("idle"+ weapons[currentWeapon].weaponName);
-        Debug.Log("Switched to: " + weapons[currentWeapon].weaponName);
     }
     public void Attack()
     {
@@ -59,7 +59,6 @@ public class CharController : MonoBehaviour {
         if (weapons[0].weaponName != "Fists") ind = 1;
         if (weapons[1].weaponName != "Fists") return;
 
-        Debug.Log("added "+weapon.weaponName);
 
         weapons[ind] = weapon;
         weapons[ind].owner = this;
@@ -75,10 +74,12 @@ public class CharController : MonoBehaviour {
     public void ApplyDamage(float amount)
     {
         health -= amount;
+        if (health < 0) health = 0;
     }
     public void Heal(float amount)
     {
         health += amount;
+        if (health > maxHealth) health = maxHealth;
     }
     public void ApplyKnockback(Weapon weapon)
     {
