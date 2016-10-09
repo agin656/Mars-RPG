@@ -27,11 +27,14 @@ public class UIController : MonoBehaviour {
     public Text marksmenshipVal;
     public Text available;
 
+    public GameObject alert;
+    public Text alertText;
+
     // Use this for initialization
     void Start () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharController>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.E) && !MainMenuManager.start)
@@ -63,6 +66,13 @@ public class UIController : MonoBehaviour {
             {
                 player.marksmanship++;
                 availablePoints--;
+            }
+        }
+        if (alert.active)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                alert.SetActive(false);
             }
         }
 	}
@@ -122,17 +132,21 @@ public class UIController : MonoBehaviour {
         }
     }
 
-    void Alert(string message)
+    public void Alert(string message)
     {
-
+        alertText.text = message;
+        alert.SetActive(true);
     }
 
     void openMenu()
     {
         statMenu.SetActive(true);
     }
+    bool tmp = true;
     void closeMenu()
     {
         statMenu.SetActive(false);
+        if(tmp)Alert("\n\nIt's time for you to venture out\nGo find the other two factions and kill their leaders.");
+        tmp = false;
     }
 }
