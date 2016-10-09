@@ -157,6 +157,6 @@ public class CharController : MonoBehaviour {
 
     private void win()
     {
-        Debug.Log("YOU WIN!");
+        Camera.main.GetComponent<UIController>().Alert("\n\nCongradulations!\n\n YOU WIN!!!!!");
     }
 }

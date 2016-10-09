@@ -117,5 +117,7 @@ public class MainMenuManager : MonoBehaviour {
 
         cc.AddWeapon(melee);
         cc.AddWeapon(range);
+
+        Camera.main.GetComponent<UIController>().Alert("\nLeft Click to attack\nRight Click to switch weapons\nPress E to update your skills.");
     }
 }
