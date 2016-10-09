@@ -27,6 +27,8 @@ public class CharController : MonoBehaviour {
         weapons[0].owner = this;
         weapons[1] = new Weapon();
         weapons[1].owner = this;
+
+        maxHealth = 100 + (endurance * 10);
     }
 
     void Start()
@@ -37,7 +39,7 @@ public class CharController : MonoBehaviour {
     void Update()
     {
         if (health <= 0) Die();
-        maxHealth = 100 + (endurance * 10);
+
         movementSpeed = 5 + speed;
     }
 

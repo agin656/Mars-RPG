@@ -17,15 +17,54 @@ public class UIController : MonoBehaviour {
     public Image icon1;
     public Image icon2;
 
+    public GameObject statMenu;
+
+    public int availablePoints = 10;
+
+    public Text enduranceVal;
+    public Text speedVal;
+    public Text strengthVal;
+    public Text marksmenshipVal;
+    public Text available;
+
     // Use this for initialization
     void Start () {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharController>();
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+        if (Input.GetKeyDown(KeyCode.E) && !MainMenuManager.start)
+        {
+            Debug.Log("poo");
+            if (statMenu.active) closeMenu();
+            else openMenu();
+        }
+        if (statMenu.active)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1) && availablePoints > 0)
+            {
+                player.endurance++;
+                player.maxHealth = 100 + (player.endurance * 10);
+                player.Heal(10);
+                availablePoints--;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && availablePoints > 0)
+            {
+                player.speed++;
+                availablePoints--;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && availablePoints > 0)
+            {
+                player.strength++;
+                availablePoints--;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4) && availablePoints > 0)
+            {
+                player.marksmanship++;
+                availablePoints--;
+            }
+        }
 	}
 
     void OnGUI()
@@ -35,7 +74,13 @@ public class UIController : MonoBehaviour {
         setImage(icon2, 1);
         setOpcities(icon1, player.currentWeapon,0);
         setOpcities(icon2, player.currentWeapon,1);
-    }
+
+        enduranceVal.text = "=      " + player.endurance + "      (press '1' to add point)";
+        speedVal.text = "=      " + player.speed + "      (press '2' to add point)";
+        strengthVal.text = "=      " + player.strength + "      (press '3' to add point)";
+        marksmenshipVal.text = "=      "+ player.marksmanship + "      (press '4' to add point)";
+        available.text = "STATS           Available Points = "+availablePoints;
+}
 
     void setOpcities(Image icon, int curWeapon, int iconNum)
     {
@@ -75,5 +120,19 @@ public class UIController : MonoBehaviour {
                 icon.sprite = gun;
                 break;
         }
+    }
+
+    void Alert(string message)
+    {
+
+    }
+
+    void openMenu()
+    {
+        statMenu.SetActive(true);
+    }
+    void closeMenu()
+    {
+        statMenu.SetActive(false);
     }
 }

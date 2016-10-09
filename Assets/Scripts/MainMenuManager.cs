@@ -14,7 +14,7 @@ public class MainMenuManager : MonoBehaviour {
 
     public int faction = -1;
 
-    private bool start = true;
+    static public bool start = true;
 
 	// Use this for initialization
 	void Start () {
