@@ -16,7 +16,7 @@ public class AllianceBoss : MonoBehaviour
     {
         allianceBoss = gameObject.GetComponent<CharController>();
         allianceBoss.speed = 10;
-        allianceBoss.endurance = 0;
+        allianceBoss.endurance = 30;
         allianceBoss.strength = 10;
         allianceBoss.marksmanship = 0;
         allianceBoss.faction = 2;

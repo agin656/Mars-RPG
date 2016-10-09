@@ -16,7 +16,7 @@ public class NinjaBoss : MonoBehaviour
     {
         ninjaBoss = gameObject.GetComponent<CharController>();
         ninjaBoss.speed = 15;
-        ninjaBoss.endurance = 10;
+        ninjaBoss.endurance = 25;
         ninjaBoss.strength = 0;
         ninjaBoss.marksmanship = 0;
         ninjaBoss.faction = 1;

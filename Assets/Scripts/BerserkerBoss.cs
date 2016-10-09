@@ -16,7 +16,7 @@ public class BerserkerBoss : MonoBehaviour
     {
         berserkerBoss = gameObject.GetComponent<CharController>();
         berserkerBoss.speed = 4;
-        berserkerBoss.endurance = 10;
+        berserkerBoss.endurance = 30;
         berserkerBoss.strength = 0;
         berserkerBoss.marksmanship = 0;
         berserkerBoss.faction = 0;

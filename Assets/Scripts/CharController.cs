@@ -82,6 +82,10 @@ public class CharController : MonoBehaviour {
             god.GetComponent<God>().allianceAlive = false;
             check = true;
         }
+        if (gameObject.CompareTag("Player"))
+        {
+            Camera.main.GetComponent<UIController>().Alert("\n\nOops, you made too many mistakes, and died!");
+        }
         if (check)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
