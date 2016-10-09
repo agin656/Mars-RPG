@@ -119,7 +119,6 @@ public class Weapon {
                 return false;
             }
         }
-        Debug.Log("Poo");
         if(ready) owner.gameObject.GetComponent<Animator>().Play("ready" + weaponName);
         return ready;
     }

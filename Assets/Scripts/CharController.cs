@@ -9,11 +9,10 @@ public class CharController : MonoBehaviour {
     private float movementSpeed = 20;
     public Weapon[] weapons = new Weapon[2];
     public int currentWeapon = 0;
-    public float maxHealth = 100.0f;
     private float health = 100.0f;
     private bool stunned = false;
     private bool moving = false;
-    private float maxHealth;
+    public float maxHealth;
     public int endurance;
     public int speed;
     public int strength;
@@ -21,9 +20,6 @@ public class CharController : MonoBehaviour {
 
     void Awake()
     {
-        maxHealth = 100 + (endurance * 10);
-        health = 100 + (endurance * 10);
-        movementSpeed = 5 + speed;
         animator = GetComponent<Animator>();
         rb = gameObject.GetComponent<Rigidbody>();
         weapons[0] = new Weapon();
@@ -31,9 +27,17 @@ public class CharController : MonoBehaviour {
         weapons[1] = new Weapon();
         weapons[1].owner = this;
     }
+
+    void Start()
+    {
+        health = 100 + (endurance * 10);
+    }
+
     void Update()
     {
         if (health <= 0) Die();
+        maxHealth = 100 + (endurance * 10);
+        movementSpeed = 5 + speed;
     }
 
     public void Move(Vector3 vector) {
