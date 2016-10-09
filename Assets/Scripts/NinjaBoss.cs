@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BerserkerBoss : MonoBehaviour
+public class NinjaBoss : MonoBehaviour
 {
 
-    public CharController berserkerBoss;
+    public CharController ninjaBoss;
     public float visionRange = 50;
     private float attackWait;
     private float currentTime;
@@ -14,21 +14,20 @@ public class BerserkerBoss : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        berserkerBoss = gameObject.GetComponent<CharController>();
-        berserkerBoss.speed = 5;
-        berserkerBoss.endurance = 30;
-        berserkerBoss.strength = 30;
-        berserkerBoss.marksmanship = 0;
-        berserkerBoss.faction = 0;
-        Weapon axe = new Weapon();
-        axe.weaponName = "Axe";
-        axe.damage = 20;
-        axe.cooldown = 5.0f;
-        axe.melee = true;
-        axe.range = 10f;
-        berserkerBoss.AddWeapon(axe);
-        gameObject.GetComponent<Animator>().Play("idleAxe");
-        defaultRotation = berserkerBoss.transform.forward;
+        ninjaBoss = gameObject.GetComponent<CharController>();
+        ninjaBoss.speed = 15;
+        ninjaBoss.endurance = 20;
+        ninjaBoss.strength = 10;
+        ninjaBoss.marksmanship = 0;
+        ninjaBoss.faction = 1;
+        Weapon sword = new Weapon();
+        sword.weaponName = "Sword";
+        sword.damage = 20;
+        sword.cooldown = 1.0f;
+        sword.melee = true;
+        sword.range = 4f;
+        ninjaBoss.AddWeapon(sword);
+        defaultRotation = ninjaBoss.transform.forward;
     }
 
     // Update is called once per frame
@@ -36,35 +35,34 @@ public class BerserkerBoss : MonoBehaviour
     {
         Vector3 lookVector = lookAtPlayer();
         Vector3 movementVector = moveToPlayer();
-        berserkerBoss.Look(lookVector);
-        berserkerBoss.Move(movementVector);
+        ninjaBoss.Look(lookVector);
+        ninjaBoss.Move(movementVector);
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player.GetComponent<CharController>().faction != berserkerBoss.faction)
+        if (player.GetComponent<CharController>().faction != ninjaBoss.faction)
         {
             if (attacking)
             {
                 if (Time.time > currentTime + attackWait)
                 {
-                    berserkerBoss.Attack();
+                    ninjaBoss.Attack();
                     attacking = false;
                 }
             }
-            else if (checkAttack() && berserkerBoss.weapons[berserkerBoss.currentWeapon].isReady())
+            else if (checkAttack() && ninjaBoss.weapons[ninjaBoss.currentWeapon].isReady())
             {
                 currentTime = Time.time;
                 attackWait = Random.Range(0.2f, 0.35f);
                 attacking = true;
             }
         }
-        if (attacking) gameObject.GetComponent<Animator>().Play("readyAxe");
     }
 
     private Vector3 moveToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player.GetComponent<CharController>().faction != berserkerBoss.faction)
+        if (player.GetComponent<CharController>().faction != ninjaBoss.faction)
         {
-            Vector3 result = player.transform.position - berserkerBoss.transform.position;
+            Vector3 result = player.transform.position - ninjaBoss.transform.position;
             result.y = 0;
             if (result.magnitude < visionRange)
             {
@@ -77,13 +75,13 @@ public class BerserkerBoss : MonoBehaviour
     private Vector3 lookAtPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player.GetComponent<CharController>().faction != berserkerBoss.faction)
+        if (player.GetComponent<CharController>().faction != ninjaBoss.faction)
         {
             Vector3 playerPos = player.transform.position;
-            Vector3 berserkerBossPos = gameObject.transform.position;
-            Vector3 result = playerPos - berserkerBossPos;
+            Vector3 ninjaBossPos = gameObject.transform.position;
+            Vector3 result = playerPos - ninjaBossPos;
             result.y = 0;
-            if (result.magnitude < 50)
+            if (result.magnitude < 50 && player.GetComponent<CharController>().faction != ninjaBoss.faction)
             {
                 return result;
             }
@@ -94,11 +92,11 @@ public class BerserkerBoss : MonoBehaviour
     private bool checkAttack()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 loc = berserkerBoss.transform.position;
-        Collider[] enemies = Physics.OverlapSphere(berserkerBoss.transform.position, berserkerBoss.weapons[berserkerBoss.currentWeapon].range);
+        Vector3 loc = ninjaBoss.transform.position;
+        Collider[] enemies = Physics.OverlapSphere(ninjaBoss.transform.position, ninjaBoss.weapons[ninjaBoss.currentWeapon].range);
         foreach (Collider enemy in enemies)
         {
-            if (enemy.gameObject.CompareTag("Player"))
+            if (enemy.gameObject.CompareTag("Player") && player.GetComponent<CharController>().faction != ninjaBoss.faction)
             {
                 return true;
             }
