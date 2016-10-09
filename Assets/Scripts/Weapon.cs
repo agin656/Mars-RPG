@@ -52,10 +52,10 @@ public class Weapon {
                 float angle = Vector3.Angle(facing, relativeVector);
                 if (angle < 90)
                 {
-                    damage += (owner.strength / 2);
+                    damage += (owner.strength * 1.25f);
                     enemy.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
                     enemy.gameObject.SendMessage("ApplyKnockback", owner.weapons[owner.currentWeapon], SendMessageOptions.DontRequireReceiver);
-                    damage -= (owner.strength / 2);
+                    damage -= (owner.strength * 1.25f);
                 }
             }
         }
@@ -86,17 +86,17 @@ public class Weapon {
             {
                 try
                 {
-                    damage += (owner.marksmanship / 2);
+                    damage += (owner.marksmanship * 1.25f);
                     hit.rigidbody.gameObject.SendMessage("ApplyDamage", damage, SendMessageOptions.DontRequireReceiver);
-                    damage -= (owner.marksmanship / 2);
+                    damage -= (owner.marksmanship * 1.25f);
                 }
                 catch
                 {
                     return;
                 }
-                damage += (owner.marksmanship / 2);
+                damage += (owner.marksmanship * 1.25f);
                 hit.rigidbody.gameObject.SendMessage("ApplyKnockback", owner.weapons[owner.currentWeapon], SendMessageOptions.DontRequireReceiver);
-                damage -= (owner.marksmanship / 2);
+                damage -= (owner.marksmanship * 1.25f);
             }
             if (hit.transform.root != owner.transform.root)
             {

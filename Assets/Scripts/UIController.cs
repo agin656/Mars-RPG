@@ -19,7 +19,7 @@ public class UIController : MonoBehaviour {
 
     public GameObject statMenu;
 
-    public int availablePoints = 10;
+    public int availablePoints = 25;
 
     public Text enduranceVal;
     public Text speedVal;

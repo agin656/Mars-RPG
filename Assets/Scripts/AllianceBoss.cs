@@ -15,15 +15,15 @@ public class AllianceBoss : MonoBehaviour
     void Start()
     {
         allianceBoss = gameObject.GetComponent<CharController>();
-        allianceBoss.speed = 13;
-        allianceBoss.endurance = 20;
+        allianceBoss.speed = 10;
+        allianceBoss.endurance = 0;
         allianceBoss.strength = 10;
         allianceBoss.marksmanship = 0;
         allianceBoss.faction = 2;
         Weapon fist = new Weapon();
         fist.weaponName = "Fists";
-        fist.damage = 10;
-        fist.cooldown = 0.4f;
+        fist.damage = 5;
+        fist.cooldown = 0.9f;
         fist.melee = true;
         fist.range = 4f;
         allianceBoss.AddWeapon(fist);

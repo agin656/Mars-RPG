@@ -14,17 +14,17 @@ public class StonerController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         stoner = gameObject.GetComponent<CharController>();
-        stoner.speed = 3;
-        stoner.endurance = 3;
+        stoner.speed = 0;
+        stoner.endurance = -5;
         stoner.strength = 0;
         stoner.marksmanship = 0;
         stoner.faction = 0;
         Weapon rock = new Weapon();
         rock.weaponName = "Rock";
-        rock.damage = 10;
+        rock.damage = 2;
         rock.cooldown = 2.0f;
         rock.melee = false;
-        rock.range = 20f;
+        rock.range = 10f;
         stoner.AddWeapon(rock);
         defaultRotation = stoner.transform.forward;
     }

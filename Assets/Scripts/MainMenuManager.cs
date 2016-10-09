@@ -79,34 +79,34 @@ public class MainMenuManager : MonoBehaviour {
         {
             case 0:
                 range.weaponName = "Rock";
-                range.damage = 10;
+                range.damage = 30;
                 range.cooldown = 2.0f;
                 range.melee = false;
                 range.range = 20f;
                 melee.weaponName = "Axe";
-                melee.damage = 20;
+                melee.damage = 40;
                 melee.cooldown = 2.0f;
                 melee.melee = true;
                 melee.range = 6f;
                 break;
             case 1:
                 range.weaponName = "Shuriken";
-                range.damage = 13;
+                range.damage = 30;
                 range.cooldown = 1.0f;
                 range.melee = false;
                 range.range = 10f;
                 melee.weaponName = "Sword";
-                melee.damage = 20;
+                melee.damage = 40;
                 melee.cooldown = 1.0f;
                 melee.melee = true;
                 melee.range = 4f;
                 break;
             case 2:
                 range.weaponName = "Gun";
-                range.damage = 20;
+                range.damage = 40;
                 range.cooldown = 1.0f;
                 range.melee = false;
-                range.range = 22;
+                range.range = 20;
                 melee.weaponName = "Fists";
                 melee.damage = 10;
                 melee.cooldown = 0.5f;

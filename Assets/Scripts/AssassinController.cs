@@ -15,17 +15,17 @@ public class AssassinController : MonoBehaviour
     void Start()
     {
         assassin = gameObject.GetComponent<CharController>();
-        assassin.speed = 17;
-        assassin.endurance = 3;
+        assassin.speed = 15;
+        assassin.endurance = -6;
         assassin.strength = 0;
         assassin.marksmanship = 0;
         assassin.faction = 1;
         Weapon sword = new Weapon();
         sword.weaponName = "Sword";
-        sword.damage = 20;
-        sword.cooldown = 1.0f;
+        sword.damage = 8;
+        sword.cooldown = 1.25f;
         sword.melee = true;
-        sword.range = 4f;
+        sword.range = 3f;
         assassin.AddWeapon(sword);
         defaultRotation = assassin.transform.forward;
     }

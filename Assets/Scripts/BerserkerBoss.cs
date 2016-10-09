@@ -15,17 +15,17 @@ public class BerserkerBoss : MonoBehaviour
     void Start()
     {
         berserkerBoss = gameObject.GetComponent<CharController>();
-        berserkerBoss.speed = 5;
-        berserkerBoss.endurance = 30;
-        berserkerBoss.strength = 30;
+        berserkerBoss.speed = 4;
+        berserkerBoss.endurance = 10;
+        berserkerBoss.strength = 0;
         berserkerBoss.marksmanship = 0;
         berserkerBoss.faction = 0;
         Weapon axe = new Weapon();
         axe.weaponName = "Axe";
-        axe.damage = 20;
+        axe.damage = 15;
         axe.cooldown = 5.0f;
         axe.melee = true;
-        axe.range = 10f;
+        axe.range = 8f;
         berserkerBoss.AddWeapon(axe);
         gameObject.GetComponent<Animator>().Play("idleAxe");
         defaultRotation = berserkerBoss.transform.forward;

@@ -14,16 +14,16 @@ public class BerserkerController : MonoBehaviour {
     void Start () {
         berserker = gameObject.GetComponent<CharController>();
         berserker.speed = 5;
-        berserker.endurance = 12;
+        berserker.endurance = 0;
         berserker.strength = 0;
         berserker.marksmanship = 0;
         berserker.faction = 0;
         Weapon axe = new Weapon();
         axe.weaponName = "Axe";
-        axe.damage = 20;
-        axe.cooldown = 2.0f;
+        axe.damage = 8;
+        axe.cooldown = 3.0f;
         axe.melee = true;
-        axe.range = 6f;
+        axe.range = 5f;
         berserker.AddWeapon(axe);
         gameObject.GetComponent<Animator>().Play("idleAxe");
         defaultRotation = berserker.transform.forward;

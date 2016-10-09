@@ -16,16 +16,16 @@ public class BoxerController : MonoBehaviour
     {
         boxer = gameObject.GetComponent<CharController>();
         boxer.speed = 13;
-        boxer.endurance = 7;
+        boxer.endurance = -3;
         boxer.strength = 0;
         boxer.marksmanship = 0;
         boxer.faction = 2;
         Weapon fist = new Weapon();
         fist.weaponName = "Fists";
-        fist.damage = 10;
-        fist.cooldown = 0.5f;
+        fist.damage = 3;
+        fist.cooldown = 1.0f;
         fist.melee = true;
-        fist.range = 4f;
+        fist.range = 2.5f;
         boxer.AddWeapon(fist);
         defaultRotation = boxer.transform.forward;
     }

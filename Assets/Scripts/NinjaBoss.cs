@@ -16,16 +16,16 @@ public class NinjaBoss : MonoBehaviour
     {
         ninjaBoss = gameObject.GetComponent<CharController>();
         ninjaBoss.speed = 15;
-        ninjaBoss.endurance = 20;
-        ninjaBoss.strength = 10;
+        ninjaBoss.endurance = 10;
+        ninjaBoss.strength = 0;
         ninjaBoss.marksmanship = 0;
         ninjaBoss.faction = 1;
         Weapon sword = new Weapon();
         sword.weaponName = "Sword";
-        sword.damage = 20;
-        sword.cooldown = 1.0f;
+        sword.damage = 12;
+        sword.cooldown = 2.0f;
         sword.melee = true;
-        sword.range = 4f;
+        sword.range = 5f;
         ninjaBoss.AddWeapon(sword);
         defaultRotation = ninjaBoss.transform.forward;
     }

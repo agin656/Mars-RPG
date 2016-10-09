@@ -17,14 +17,14 @@ public class NinjaController : MonoBehaviour
     {
         ninja = gameObject.GetComponent<CharController>();
         ninja.speed = 10;
-        ninja.endurance = 1;
+        ninja.endurance = -8;
         ninja.strength = 0;
         ninja.marksmanship = 0;
         ninja.faction = 1;
         Weapon shuriken = new Weapon();
         shuriken.weaponName = "Shuriken";
-        shuriken.damage = 13;
-        shuriken.cooldown = 1.0f;
+        shuriken.damage = 4;
+        shuriken.cooldown = 3.0f;
         shuriken.melee = false;
         shuriken.range = 10f;
         ninja.AddWeapon(shuriken);
