@@ -20,6 +20,7 @@ public class NinjaController : MonoBehaviour
         ninja.endurance = 1;
         ninja.strength = 0;
         ninja.marksmanship = 0;
+        ninja.faction = 1;
         Weapon shuriken = new Weapon();
         shuriken.weaponName = "Shuriken";
         shuriken.damage = 13;
@@ -39,54 +40,58 @@ public class NinjaController : MonoBehaviour
         Vector3 movementVector = moveToPlayer();
         ninja.Look(lookVector);
         ninja.Move(movementVector);
-        if (attacking)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player.GetComponent<CharController>().faction != ninja.faction)
         {
-            if (Time.time > currentTime + attackWait)
+            if (attacking)
             {
-                ninja.Attack();
-                attacking = false;
+                if (Time.time > currentTime + attackWait)
+                {
+                    ninja.Attack();
+                    attacking = false;
+                }
             }
-        }
-        else if (ninja.weapons[ninja.currentWeapon].isReady())
-        {
-            checkAttack();
+            else if (ninja.weapons[ninja.currentWeapon].isReady())
+            {
+                checkAttack();
+            }
         }
     }
 
     private Vector3 moveToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 result = player.transform.position - ninja.transform.position;
-        result.y = 0;
-        if (result.magnitude < visionRange && result.magnitude > 0.75 * ninja.weapons[ninja.currentWeapon].range)
+        if (player.GetComponent<CharController>().faction != ninja.faction)
         {
-            return result;
+            Vector3 result = player.transform.position - ninja.transform.position;
+            result.y = 0;
+            if (result.magnitude < visionRange && result.magnitude > 0.75 * ninja.weapons[ninja.currentWeapon].range)
+            {
+                return result;
+            }
+            else if (result.magnitude < 0.55 * ninja.weapons[ninja.currentWeapon].range)
+            {
+                return -result;
+            }
         }
-        else if (result.magnitude < 0.55 * ninja.weapons[ninja.currentWeapon].range)
-        {
-            return -result;
-        }
-        else
-        {
-            return Vector3.zero;
-        }
+        return Vector3.zero;
     }
 
     private Vector3 lookAtPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 playerPos = player.transform.position;
-        Vector3 ninjaPos = gameObject.transform.position;
-        Vector3 result = playerPos - ninjaPos;
-        result.y = 0;
-        if (result.magnitude < visionRange)
+        if (player.GetComponent<CharController>().faction != ninja.faction)
         {
-            return result;
+            Vector3 playerPos = player.transform.position;
+            Vector3 ninjaPos = gameObject.transform.position;
+            Vector3 result = playerPos - ninjaPos;
+            result.y = 0;
+            if (result.magnitude < visionRange)
+            {
+                return result;
+            }
         }
-        else
-        {
-            return defaultRotation;
-        }
+        return defaultRotation;
     }
 
     private void checkAttack()

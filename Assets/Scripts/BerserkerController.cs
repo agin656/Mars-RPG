@@ -17,6 +17,7 @@ public class BerserkerController : MonoBehaviour {
         berserker.endurance = 12;
         berserker.strength = 0;
         berserker.marksmanship = 0;
+        berserker.faction = 0;
         Weapon axe = new Weapon();
         axe.weaponName = "Axe";
         axe.damage = 20;
@@ -34,53 +35,56 @@ public class BerserkerController : MonoBehaviour {
         Vector3 movementVector = moveToPlayer();
         berserker.Look(lookVector);
         berserker.Move(movementVector);
-        if (attacking)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player.GetComponent<CharController>().faction != berserker.faction)
         {
-            if(Time.time > currentTime + attackWait)
+            if (attacking)
             {
-                berserker.Attack();
-                attacking = false;
+                if (Time.time > currentTime + attackWait)
+                {
+                    berserker.Attack();
+                    attacking = false;
+                }
+            }
+            else if (checkAttack() && berserker.weapons[berserker.currentWeapon].isReady())
+            {
+                currentTime = Time.time;
+                attackWait = Random.Range(0.2f, 0.35f);
+                attacking = true;
             }
         }
-        else if (checkAttack() && berserker.weapons[berserker.currentWeapon].isReady())
-        {
-            currentTime = Time.time;
-            attackWait = Random.Range(0.2f, 0.35f);
-            attacking = true;
-        }
-
         if(attacking) gameObject.GetComponent<Animator>().Play("readyAxe");
     }
 
     private Vector3 moveToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 result = player.transform.position - berserker.transform.position;
-        result.y = 0;
-        if (result.magnitude < visionRange)
+        if (player.GetComponent<CharController>().faction != berserker.faction)
         {
-            return result;
-        } else
-        {
-            return Vector3.zero;
+            Vector3 result = player.transform.position - berserker.transform.position;
+            result.y = 0;
+            if (result.magnitude < visionRange)
+            {
+                return result;
+            }
         }
+        return Vector3.zero;
     }
 
     private Vector3 lookAtPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 playerPos = player.transform.position;
-        Vector3 berserkerPos = gameObject.transform.position;
-        Vector3 result = playerPos - berserkerPos;
-        result.y = 0;
-        if(result.magnitude < 50)
-        {
-            return result;
-        } else
-        {
-            return (defaultRotation);
+        if (player.GetComponent<CharController>().faction != berserker.faction) {
+            Vector3 playerPos = player.transform.position;
+            Vector3 berserkerPos = gameObject.transform.position;
+            Vector3 result = playerPos - berserkerPos;
+            result.y = 0;
+            if (result.magnitude < 50)
+            {
+                return result;
+            }
         }
-        
+        return (defaultRotation);
     }
 
     private bool checkAttack()

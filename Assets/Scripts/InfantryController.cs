@@ -20,12 +20,13 @@ public class InfantryController : MonoBehaviour
         infantry.endurance = 1;
         infantry.strength = 0;
         infantry.marksmanship = 0;
+        infantry.faction = 2;
         Weapon gun = new Weapon();
         gun.weaponName = "Gun";
         gun.damage = 20;
         gun.cooldown = 1.0f;
         gun.melee = false;
-        gun.range = 30f;
+        gun.range = 22;
         infantry.AddWeapon(gun);
         defaultRotation = infantry.transform.forward;
     }
@@ -39,54 +40,58 @@ public class InfantryController : MonoBehaviour
         Vector3 movementVector = moveToPlayer();
         infantry.Look(lookVector);
         infantry.Move(movementVector);
-        if (attacking)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player.GetComponent<CharController>().faction != infantry.faction)
         {
-            if (Time.time > currentTime + attackWait)
+            if (attacking)
             {
-                infantry.Attack();
-                attacking = false;
+                if (Time.time > currentTime + attackWait)
+                {
+                    infantry.Attack();
+                    attacking = false;
+                }
             }
-        }
-        else if (infantry.weapons[infantry.currentWeapon].isReady())
-        {
-            checkAttack();
+            else if (infantry.weapons[infantry.currentWeapon].isReady())
+            {
+                checkAttack();
+            }
         }
     }
 
     private Vector3 moveToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 result = player.transform.position - infantry.transform.position;
-        result.y = 0;
-        if (result.magnitude < visionRange && result.magnitude > 0.9 * infantry.weapons[infantry.currentWeapon].range)
+        if (player.GetComponent<CharController>().faction != infantry.faction)
         {
-            return result;
+            Vector3 result = player.transform.position - infantry.transform.position;
+            result.y = 0;
+            if (result.magnitude < visionRange && result.magnitude > 0.9 * infantry.weapons[infantry.currentWeapon].range)
+            {
+                return result;
+            }
+            else if (result.magnitude < 0.6 * infantry.weapons[infantry.currentWeapon].range)
+            {
+                return -result;
+            }
         }
-        else if (result.magnitude < 0.6 * infantry.weapons[infantry.currentWeapon].range)
-        {
-            return -result;
-        }
-        else
-        {
-            return Vector3.zero;
-        }
+        return Vector3.zero;
     }
 
     private Vector3 lookAtPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 playerPos = player.transform.position;
-        Vector3 infantryPos = gameObject.transform.position;
-        Vector3 result = playerPos - infantryPos;
-        result.y = 0;
-        if (result.magnitude < visionRange)
+        if (player.GetComponent<CharController>().faction != infantry.faction)
         {
-            return result;
+            Vector3 playerPos = player.transform.position;
+            Vector3 infantryPos = gameObject.transform.position;
+            Vector3 result = playerPos - infantryPos;
+            result.y = 0;
+            if (result.magnitude < visionRange)
+            {
+                return result;
+            }
         }
-        else
-        {
-            return defaultRotation;
-        }
+        return defaultRotation;
     }
 
     private void checkAttack()

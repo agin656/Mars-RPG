@@ -19,6 +19,7 @@ public class BoxerController : MonoBehaviour
         boxer.endurance = 7;
         boxer.strength = 0;
         boxer.marksmanship = 0;
+        boxer.faction = 2;
         Weapon fist = new Weapon();
         fist.weaponName = "Fists";
         fist.damage = 10;
@@ -36,53 +37,56 @@ public class BoxerController : MonoBehaviour
         Vector3 movementVector = moveToPlayer();
         boxer.Look(lookVector);
         boxer.Move(movementVector);
-        if (attacking)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player.GetComponent<CharController>().faction != boxer.faction)
         {
-            if (Time.time > currentTime + attackWait)
+            if (attacking)
             {
-                boxer.Attack();
-                attacking = false;
+                if (Time.time > currentTime + attackWait)
+                {
+                    boxer.Attack();
+                    attacking = false;
+                }
             }
-        }
-        else if (checkAttack() && boxer.weapons[boxer.currentWeapon].isReady())
-        {
-            currentTime = Time.time;
-            attackWait = Random.Range(0.2f, 0.35f);
-            attacking = true;
+            else if (checkAttack() && boxer.weapons[boxer.currentWeapon].isReady())
+            {
+                currentTime = Time.time;
+                attackWait = Random.Range(0.2f, 0.35f);
+                attacking = true;
+            }
         }
     }
 
     private Vector3 moveToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 result = player.transform.position - boxer.transform.position;
-        result.y = 0;
-        if (result.magnitude < visionRange)
+        if (player.GetComponent<CharController>().faction != boxer.faction)
         {
-            return result;
+            Vector3 result = player.transform.position - boxer.transform.position;
+            result.y = 0;
+            if (result.magnitude < visionRange)
+            {
+                return result;
+            }
         }
-        else
-        {
-            return Vector3.zero;
-        }
+        return Vector3.zero;
     }
 
     private Vector3 lookAtPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 playerPos = player.transform.position;
-        Vector3 boxerPos = gameObject.transform.position;
-        Vector3 result = playerPos - boxerPos;
-        result.y = 0;
-        if (result.magnitude < 50)
+        if (player.GetComponent<CharController>().faction != boxer.faction)
         {
-            return result;
+            Vector3 playerPos = player.transform.position;
+            Vector3 boxerPos = gameObject.transform.position;
+            Vector3 result = playerPos - boxerPos;
+            result.y = 0;
+            if (result.magnitude < 50)
+            {
+                return result;
+            }
         }
-        else
-        {
-            return (defaultRotation);
-        }
-
+        return (defaultRotation);
     }
 
     private bool checkAttack()

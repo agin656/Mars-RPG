@@ -18,6 +18,7 @@ public class StonerController : MonoBehaviour {
         stoner.endurance = 3;
         stoner.strength = 0;
         stoner.marksmanship = 0;
+        stoner.faction = 0;
         Weapon rock = new Weapon();
         rock.weaponName = "Rock";
         rock.damage = 10;
@@ -36,51 +37,58 @@ public class StonerController : MonoBehaviour {
         Vector3 movementVector = moveToPlayer();
         stoner.Look(lookVector);
         stoner.Move(movementVector);
-        if (attacking)
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player.GetComponent<CharController>().faction != stoner.faction)
         {
-            if (Time.time > currentTime + attackWait)
+            if (attacking)
             {
-                stoner.Attack();
-                attacking = false;
+                if (Time.time > currentTime + attackWait)
+                {
+                    stoner.Attack();
+                    attacking = false;
+                }
             }
-        }
-        else if (stoner.weapons[stoner.currentWeapon].isReady())
-        {
-            checkAttack();
+            else if (stoner.weapons[stoner.currentWeapon].isReady())
+            {
+                checkAttack();
+            }
         }
     }
 
     private Vector3 moveToPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 result = player.transform.position - stoner.transform.position;
-        result.y = 0;
-        if (result.magnitude < visionRange && result.magnitude > 0.8 * stoner.weapons[stoner.currentWeapon].range)
+        if (player.GetComponent<CharController>().faction != stoner.faction)
         {
-            return result;
+            Vector3 result = player.transform.position - stoner.transform.position;
+            result.y = 0;
+            if (result.magnitude < visionRange && result.magnitude > 0.8 * stoner.weapons[stoner.currentWeapon].range)
+            {
+                return result;
+            }
+            else if (result.magnitude < 0.5 * stoner.weapons[stoner.currentWeapon].range)
+            {
+                return -result;
+            }
         }
-        else if (result.magnitude < 0.5 * stoner.weapons[stoner.currentWeapon].range)
-        {
-            return -result;
-        } else {
-            return Vector3.zero;
-        }
+        return Vector3.zero;
     }
 
     private Vector3 lookAtPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 playerPos = player.transform.position;
-        Vector3 stonerPos = gameObject.transform.position;
-        Vector3 result = playerPos - stonerPos;
-        result.y = 0;
-        if (result.magnitude < visionRange)
+        if (player.GetComponent<CharController>().faction != stoner.faction)
         {
-            return result;
-        } else
-        {
-            return defaultRotation;
+            Vector3 playerPos = player.transform.position;
+            Vector3 stonerPos = gameObject.transform.position;
+            Vector3 result = playerPos - stonerPos;
+            result.y = 0;
+            if (result.magnitude < visionRange)
+            {
+                return result;
+            }
         }
+        return defaultRotation;
     }
 
     private void checkAttack()
