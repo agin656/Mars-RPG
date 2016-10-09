@@ -82,7 +82,7 @@ public class CharController : MonoBehaviour {
         }
         if (check)
         {
-            GameObject player = GameObject.FindGameObjectWithTag("player");
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
             int faction = player.GetComponent<CharController>().faction;
             bool barbDead = !god.GetComponent<God>().barbAlive;
             bool ninjaDead = !god.GetComponent<God>().ninjaAlive;
